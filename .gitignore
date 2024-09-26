@@ -1,3 +1,5 @@
 mvnw*
 HELP.md
-./target
+target
+challenge-one.iml
+.idea
