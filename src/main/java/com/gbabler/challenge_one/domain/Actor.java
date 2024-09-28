@@ -1,6 +1,5 @@
 package com.gbabler.challenge_one.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,11 +9,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "actor")
@@ -43,6 +39,7 @@ public class Actor {
         this.createdAt = LocalDateTime.now();
     }
 
+    @Deprecated
     public Actor() {
     }
 
