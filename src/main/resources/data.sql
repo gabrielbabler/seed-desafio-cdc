@@ -1,14 +1,30 @@
-CREATE TABLE ACTOR(
+CREATE TABLE AUTHOR(
     id VARCHAR(36) NOT NULL,
     name VARCHAR NOT NULL,
     email VARCHAR UNIQUE NOT NULL,
     description VARCHAR(400) NOT NULL,
     created_at DATE NOT NULL,
-    PRIMARY KEY (ID)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE CATEGORY(
     id VARCHAR(36) NOT NULL,
     name VARCHAR UNIQUE NOT NULL,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE BOOK(
+    id VARCHAR(36) NOT NULL,
+    title VARCHAR UNIQUE NOT NULL,
+    abstract VARCHAR(500) NOT NULL,
+    summary VARCHAR,
+    price FLOAT NOT NULL,
+    number_of_pages INTEGER NOT NULL,
+    isbn VARCHAR UNIQUE NOT NULL,
+    release_date DATE,
+    category_id VARCHAR NOT NULL,
+    author_id VARCHAR NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (category_id) REFERENCES CATEGORY(id),
+    FOREIGN KEY (author_id) REFERENCES AUTHOR(id)
 );

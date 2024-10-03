@@ -1,5 +1,6 @@
-package com.gbabler.challenge_one.validation;
+package com.gbabler.challenge_one.validation.annotation;
 
+import com.gbabler.challenge_one.validation.constraint.UniqueFieldValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

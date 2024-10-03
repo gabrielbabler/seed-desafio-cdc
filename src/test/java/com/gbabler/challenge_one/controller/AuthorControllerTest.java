@@ -1,8 +1,8 @@
 package com.gbabler.challenge_one.controller;
 
-import com.gbabler.challenge_one.domain.Actor;
-import com.gbabler.challenge_one.dto.ActorRequest;
-import com.gbabler.challenge_one.repository.ActorRepository;
+import com.gbabler.challenge_one.domain.Author;
+import com.gbabler.challenge_one.dto.AuthorRequest;
+import com.gbabler.challenge_one.repository.AuthorRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,42 +22,42 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class ActorControllerTest {
+public class AuthorControllerTest {
 
     @InjectMocks
-    private ActorController actorController;
+    private AuthorController authorController;
 
     @Mock
-    private ActorRepository actorRepository;
+    private AuthorRepository authorRepository;
 
     @Test
     void createActorSuccessfully() {
-        ActorRequest actorRequest = new ActorRequest("Gabriel", "gabriel@email.com", "description");
+        AuthorRequest authorRequest = new AuthorRequest("Gabriel", "gabriel@email.com", "description");
 
-        when(actorRepository.findByEmail(anyString()))
+        when(authorRepository.findByEmail(anyString()))
                 .thenReturn(Optional.empty());
-        when(actorRepository.save(any(Actor.class)))
+        when(authorRepository.save(any(Author.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        actorController.createActor(actorRequest);
+        authorController.createActor(authorRequest);
 
-        verify(actorRepository, times(1)).findByEmail(anyString());
-        verify(actorRepository, times(1)).save(any(Actor.class));
+        verify(authorRepository, times(1)).findByEmail(anyString());
+        verify(authorRepository, times(1)).save(any(Author.class));
     }
 
     @Test
     void shouldThrowResponseStatusExceptionWhenCreatingNewActorBecauseEmailExists() {
-        ActorRequest actorRequest = new ActorRequest("Gabriel", "gabriel@email.com", "description");
+        AuthorRequest authorRequest = new AuthorRequest("Gabriel", "gabriel@email.com", "description");
 
-        when(actorRepository.findByEmail(anyString()))
-                .thenReturn(Optional.of(new Actor()));
+        when(authorRepository.findByEmail(anyString()))
+                .thenReturn(Optional.of(new Author()));
 
-        ResponseStatusException responseStatusException = assertThrows(ResponseStatusException.class, () -> actorController.createActor(actorRequest));
+        ResponseStatusException responseStatusException = assertThrows(ResponseStatusException.class, () -> authorController.createActor(authorRequest));
         assertTrue(responseStatusException.getStatusCode().is4xxClientError());
         assertEquals("Email already exists", responseStatusException.getReason());
         assertEquals(HttpStatus.CONFLICT, responseStatusException.getStatusCode());
 
-        verify(actorRepository, times(1)).findByEmail(anyString());
-        verify(actorRepository, times(0)).save(any(Actor.class));
+        verify(authorRepository, times(1)).findByEmail(anyString());
+        verify(authorRepository, times(0)).save(any(Author.class));
     }
 }

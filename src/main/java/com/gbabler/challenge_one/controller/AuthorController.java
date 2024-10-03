@@ -1,7 +1,7 @@
 package com.gbabler.challenge_one.controller;
 
-import com.gbabler.challenge_one.dto.ActorRequest;
-import com.gbabler.challenge_one.repository.ActorRepository;
+import com.gbabler.challenge_one.dto.AuthorRequest;
+import com.gbabler.challenge_one.repository.AuthorRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,18 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/actors")
-public class ActorController {
+public class AuthorController {
 
-    private final ActorRepository actorRepository;
+    private final AuthorRepository authorRepository;
 
-    public ActorController(ActorRepository actorRepository) {
-        this.actorRepository = actorRepository;
+    public AuthorController(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
     }
 
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.OK)
-    public void createActor(@Valid @RequestBody ActorRequest actorRequest) {
-        actorRepository.save(actorRequest.toModel());
+    public void createActor(@Valid @RequestBody AuthorRequest authorRequest) {
+        authorRepository.save(authorRequest.toModel());
     }
 }

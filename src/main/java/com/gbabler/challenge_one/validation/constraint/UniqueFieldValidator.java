@@ -1,5 +1,6 @@
-package com.gbabler.challenge_one.validation;
+package com.gbabler.challenge_one.validation.constraint;
 
+import com.gbabler.challenge_one.validation.annotation.UniqueValue;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintValidator;
