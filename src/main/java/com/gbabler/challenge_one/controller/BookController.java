@@ -2,8 +2,9 @@ package com.gbabler.challenge_one.controller;
 
 import com.gbabler.challenge_one.domain.Book;
 import com.gbabler.challenge_one.dto.BookRequest;
-import com.gbabler.challenge_one.repository.BookRepository;
+import com.gbabler.challenge_one.dto.BookResponse;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,24 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * ICP = 4
- * bookRepo = 1
+ * ICP = 3
  * bookReq = 1
  * toModel = 1
- * Book = 1
+ * from = 1
  */
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
-    private final BookRepository bookRepository;
-    private final EntityManager entityManager;
-
-    public BookController(BookRepository bookRepository, EntityManager entityManager) {
-        this.bookRepository = bookRepository;
-        this.entityManager = entityManager;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @PostMapping
     @Transactional
@@ -45,7 +40,11 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public List<BookResponse> getAllBooks() {
+        return entityManager.createQuery("select b from Book b", Book.class)
+                .getResultList()
+                .stream()
+                .map(BookResponse::from)
+                .toList();
     }
 }
