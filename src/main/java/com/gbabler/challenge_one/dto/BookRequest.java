@@ -15,31 +15,53 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public record BookRequest(
-        @NotBlank @UniqueValue(
+        @NotBlank(message = "Field title cannot be blank")
+        @UniqueValue(
                 message = "This title already exists",
                 fieldName = "title",
                 domainClass = Book.class
-        ) String title,
-        @NotBlank(message = "Field abstract cannot be blank") @JsonProperty(value = "abstract") String abztract,
+        )
+        String title,
+
+        @NotBlank(message = "Field abstract cannot be blank")
+        @JsonProperty(value = "abstract")
+        String abztract,
+
         String summary,
-        @NotNull Float price,
-        @NotNull Integer numberOfPages,
-        @NotBlank @UniqueValue(
+
+        @NotNull(message = "Field price cannot be null")
+        Float price,
+
+        @NotNull(message = "Field numberOfPages cannot be null")
+        Integer numberOfPages,
+
+        @NotBlank(message = "Field isbn cannot be blank")
+        @UniqueValue(
                 message = "This ISBN already exists",
                 fieldName = "isbn",
                 domainClass = Book.class
-        ) String isbn,
-        @Future @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING) LocalDate releaseDate,
-        @NotBlank @ValidId(
+        )
+        String isbn,
+
+        @Future
+        @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+        LocalDate releaseDate,
+
+        @NotBlank(message = "Field categoryId cannot be blank")
+        @ValidId(
                 message = "The categoryId is invalid",
                 fieldName = "id",
                 domainClass = Category.class
-        ) String categoryId,
-        @NotBlank @ValidId(
+        )
+        String categoryId,
+
+        @NotBlank(message = "Field authorId cannot be blank")
+        @ValidId(
                 message = "The authorId is invalid",
                 fieldName = "id",
                 domainClass = Author.class
-        ) String authorId
+        )
+        String authorId
 ) {
         public Book toModel(EntityManager entityManager) {
                 Author author = entityManager.find(Author.class, authorId);

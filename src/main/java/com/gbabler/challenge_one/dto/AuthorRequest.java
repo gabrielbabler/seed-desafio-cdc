@@ -7,9 +7,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record AuthorRequest(
-        @NotBlank @UniqueValue(message = "This name already exists", fieldName = "name", domainClass = Author.class) String name,
-        @NotBlank @Email String email,
-        @NotBlank @Size(max = 400) String description
+        @NotBlank(message = "Field name cannot be blank")
+        @UniqueValue(message = "This name already exists", fieldName = "name", domainClass = Author.class)
+        String name,
+
+        @NotBlank(message = "Field email cannot be blank")
+        @Email
+        String email,
+
+        @NotBlank(message = "Field description cannot be blank")
+        @Size(max = 400)
+        String description
 ) {
 
     public Author toModel() {
