@@ -22,6 +22,9 @@ public class ValidIdValidator implements ConstraintValidator<ValidId, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
+        if(value == null){
+            return true;
+        }
         return !entityManager.createQuery("SELECT 1 FROM " + clazz.getName() + " WHERE " + domainAttribute + " = :value")
                 .setParameter("value", value)
                 .getResultList()

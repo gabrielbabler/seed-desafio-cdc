@@ -50,4 +50,8 @@ public class State {
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean belongsTo(Country country) {
+        return this.country.equals(country);
+    }
 }

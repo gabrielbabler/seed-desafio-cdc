@@ -22,6 +22,9 @@ public class UniqueFieldValidator implements ConstraintValidator<UniqueValue, St
 
     @Override
     public boolean isValid(String field, ConstraintValidatorContext constraintValidatorContext) {
+        if(field == null) {
+            return true;
+        }
         return entityManager.createQuery("SELECT 1 FROM " + clazz.getName() + " WHERE " + domainAttribute + " = :field")
                 .setParameter("field", field)
                 .getResultList()
