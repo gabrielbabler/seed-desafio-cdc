@@ -1,6 +1,8 @@
 package com.gbabler.challenge_one.controller;
 
+import com.gbabler.challenge_one.domain.Payment;
 import com.gbabler.challenge_one.dto.PaymentRequest;
+import com.gbabler.challenge_one.dto.ShoppingCartRequest;
 import com.gbabler.challenge_one.validation.DocumentValidator;
 import com.gbabler.challenge_one.validation.StateBelongsToCountryValidator;
 import jakarta.persistence.EntityManager;
@@ -34,8 +36,8 @@ public class PaymentController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void pay(@Valid @RequestBody PaymentRequest paymentRequest){
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public Payment createShoppingCart(@Valid @RequestBody PaymentRequest paymentRequest) {
+        return paymentRequest.toModel(entityManager);
     }
 }

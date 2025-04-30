@@ -10,7 +10,6 @@ public class ValidIdValidator implements ConstraintValidator<ValidId, String> {
 
     @PersistenceContext
     private EntityManager entityManager;
-
     private String domainAttribute;
     private Class<?> clazz;
 

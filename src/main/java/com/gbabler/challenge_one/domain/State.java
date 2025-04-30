@@ -1,5 +1,6 @@
 package com.gbabler.challenge_one.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ public class State {
     private String name;
 
     @ManyToOne
+    @JsonBackReference
     private Country country;
 
     public State(String name, Country country) {

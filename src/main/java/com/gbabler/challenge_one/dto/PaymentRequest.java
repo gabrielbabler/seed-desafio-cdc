@@ -1,10 +1,11 @@
 package com.gbabler.challenge_one.dto;
 
 import com.gbabler.challenge_one.domain.Country;
+import com.gbabler.challenge_one.domain.Payment;
 import com.gbabler.challenge_one.domain.State;
 import com.gbabler.challenge_one.validation.annotation.ValidId;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.EntityManager;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -43,18 +44,17 @@ public record PaymentRequest(
         )
         String countryId,
 
-        @ValidId(
-                message = "The stateId is not valid",
-                fieldName = "id",
-                domainClass = State.class
-        )
         String stateId,
 
         @NotBlank(message = "The phone field is required")
         String phone,
 
         @NotBlank(message = "The cep field is required")
-        String cep
+        String cep,
+
+        @Valid
+        @NotNull(message = "The shopping cart request is required")
+        ShoppingCartRequest shoppingCartRequest
 ) {
         public boolean documentIsValid() {
                 Assert.hasLength(this.document, "You cannot validate the document if it's empty");
@@ -63,5 +63,18 @@ public record PaymentRequest(
                 CNPJValidator cnpjValidator = new CNPJValidator();
                 cnpjValidator.initialize(null);
                 return cpfValidator.isValid(this.document, null) || cnpjValidator.isValid(this.document, null);
+        }
+
+        public Payment toModel(EntityManager entityManager) {
+                @NotNull Country country = entityManager.find(Country.class, countryId);
+                Payment payment = new Payment(email, name, lastName, document, address, complement, country, phone, cep);
+                if(stateId != null) {
+                        payment.setState(entityManager.find(State.class, stateId));
+                }
+                return payment;
+        }
+
+        public boolean hasState() {
+                return stateId != null;
         }
 }
